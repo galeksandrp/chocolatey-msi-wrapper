@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define ProductName="MSI Wrapper for Chocolatey" ?>
+  <?define ProductVersion="0.1.0" ?>
+  <?define ProductCode="b4602cd5-2ce4-4abb-8058-6f4455503e1d"?>
+  <?define UpgradeCode="5043ae53-30fe-45eb-b879-88e7faa0a271"?>
+  <?define Manufacturer="Alexander Georgievskiy"?>
+
+  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes"/>
+    <Property Id="MSIFASTINSTALL" Value="1" />
+    <Property Id="DISABLEROLLBACK" Value="1" />
+    <MajorUpgrade AllowDowngrades="yes"/>
+
+    <Feature Id="ChocoMSIWrapInstall" Title="ChocoMSIWrapSetup" Level="1">
+      <ComponentRef Id="ChocoMSIWrap" />
+    </Feature>
+
+    <CustomAction Id='InstallAction' ExeCommand='-i -o' Execute='immediate' Return='check'/>
+    <CustomAction Id='UninstallAction' ExeCommand='-u' Execute='immediate' Return='check'/>
+    <CustomAction Id='UpdateAction' ExeCommand='-w' Execute='immediate' Return='check'/>
+<!--     <CustomAction Id='ChangeAction' Directory='ProgramFilesFolder' ExeCommand='ChangeAction' Execute='immediate' Return='check'/>
+    <CustomAction Id='RepairAction' Directory='ProgramFilesFolder' ExeCommand='RepairAction' Execute='immediate' Return='check'/> -->
+
+    <InstallExecuteSequence>
+      <Custom Action='InstallAction' After='InstallFinalize'>NOT Installed AND NOT WIX_UPGRADE_DETECTED</Custom>
+      <Custom Action='UninstallAction' Before="RemoveFiles">REMOVE AND NOT UPGRADINGPRODUCTCODE</Custom>
+      <Custom Action='UpdateAction' Before="RemoveFiles">UPGRADINGPRODUCTCODE</Custom>
+<!--       <Custom Action='ChangeAction' After='InstallFinalize'>Installed AND NOT REINSTALL AND NOT UPGRADINGPRODUCTCODE AND NOT REMOVE</Custom>
+      <Custom Action='RepairAction' After='InstallFinalize'>REINSTALL</Custom> -->
+    </InstallExecuteSequence>
+
+  </Product>
+</Wix>
