@@ -13,8 +13,8 @@
     <Property Id="DISABLEROLLBACK" Value="1" />
     <MajorUpgrade AllowDowngrades="yes"/>
 
-    <SetProperty Id="ChocolateyExecutableLocation" Value="[%ChocolateyInstall]\choco.exe" Before="InstallInitialize" />
-    <SetProperty Id="ChocolateyPackageToInstall" Value="[%ChocolateyPackageToInstall]" Before="InstallInitialize" />
+    <SetProperty Id="ChocolateyExecutableLocation" Value="[%ChocolateyInstall]\choco.exe" Before="InstallAction" />
+    <SetProperty Id="ChocolateyPackageToInstall" Value="[%ChocolateyPackageToInstall]" Before="InstallAction" />
     <CustomAction Id='InstallAction' ExeCommand='install -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
     <CustomAction Id='UninstallAction' ExeCommand='uninstall -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
     <CustomAction Id='UpdateAction' ExeCommand='upgrade -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
