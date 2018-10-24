@@ -17,8 +17,8 @@
       <ComponentRef Id="ChocoMSIWrap" />
     </Feature>
 
-    <SetProperty Id="ChocolateyExecutableLocation" Value="[%ChocolateyInstall]\choco.exe" />
-    <SetProperty Id="ChocolateyPackageToInstall" Value="[%ChocolateyPackageToInstall]" />
+    <SetProperty Id="ChocolateyExecutableLocation" Value="[%ChocolateyInstall]\choco.exe" Before="InstallInitialize" />
+    <SetProperty Id="ChocolateyPackageToInstall" Value="[%ChocolateyPackageToInstall]" Before="InstallInitialize" />
     <CustomAction Id='InstallAction' ExeCommand='install -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
     <CustomAction Id='UninstallAction' ExeCommand='uninstall -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
     <CustomAction Id='UpdateAction' ExeCommand='upgrade -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
