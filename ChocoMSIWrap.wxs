@@ -17,9 +17,11 @@
       <ComponentRef Id="ChocoMSIWrap" />
     </Feature>
 
-    <CustomAction Id='InstallAction' ExeCommand='-i -o' Execute='immediate' Return='check'/>
-    <CustomAction Id='UninstallAction' ExeCommand='-u' Execute='immediate' Return='check'/>
-    <CustomAction Id='UpdateAction' ExeCommand='-w' Execute='immediate' Return='check'/>
+    <SetProperty Id="ChocolateyExecutableLocation" Value="[%ChocolateyInstall]\choco.exe" />
+    <SetProperty Id="ChocolateyPackageToInstall" Value="[%ChocolateyPackageToInstall]" />
+    <CustomAction Id='InstallAction' ExeCommand='install -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
+    <CustomAction Id='UninstallAction' ExeCommand='uninstall -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
+    <CustomAction Id='UpdateAction' ExeCommand='upgrade -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
 <!--     <CustomAction Id='ChangeAction' Directory='ProgramFilesFolder' ExeCommand='ChangeAction' Execute='immediate' Return='check'/>
     <CustomAction Id='RepairAction' Directory='ProgramFilesFolder' ExeCommand='RepairAction' Execute='immediate' Return='check'/> -->
 
