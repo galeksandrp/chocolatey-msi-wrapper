@@ -13,10 +13,6 @@
     <Property Id="DISABLEROLLBACK" Value="1" />
     <MajorUpgrade AllowDowngrades="yes"/>
 
-    <Feature Id="ChocoMSIWrapInstall" Title="ChocoMSIWrapSetup" Level="1">
-      <ComponentRef Id="ChocoMSIWrap" />
-    </Feature>
-
     <SetProperty Id="ChocolateyExecutableLocation" Value="[%ChocolateyInstall]\choco.exe" Before="InstallInitialize" />
     <SetProperty Id="ChocolateyPackageToInstall" Value="[%ChocolateyPackageToInstall]" Before="InstallInitialize" />
     <CustomAction Id='InstallAction' ExeCommand='install -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
