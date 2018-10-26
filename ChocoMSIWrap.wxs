@@ -11,13 +11,28 @@
     <Package InstallerVersion="200" Compressed="yes"/>
     <Property Id="MSIFASTINSTALL" Value="1" />
     <Property Id="DISABLEROLLBACK" Value="1" />
+	<!-- <Property Id='ARPSYSTEMCOMPONENT'>1</Property> -->
     <MajorUpgrade AllowDowngrades="yes"/>
+	
+	<Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="CommonAppDataFolder">
+        <Directory Id="PACKAGECACHE" Name="Package Cache">
+          <Directory Id="INSTALLLOCATION" Name="{$(var.ProductCode)}">
+            <Component Id="ChocoMSIWrap" Guid="affd77d1-b35c-46f3-a97f-1686dc57b8b8">
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
 
-    <SetProperty Id="ChocolateyExecutableLocation" Value="[%ChocolateyInstall]\choco.exe" Before="InstallAction" Sequence="execute" />
-    <SetProperty Id="ChocolateyPackageToInstall" Value="[%ChocolateyPackageToInstall]" Before="InstallAction" Sequence="execute" />
-    <CustomAction Id='InstallAction' ExeCommand='install -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
-    <CustomAction Id='UninstallAction' ExeCommand='uninstall -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
-    <CustomAction Id='UpdateAction' ExeCommand='upgrade -y [ChocolateyPackageToInstall]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
+    <Feature Id="ChocoMSIWrapInstall" Title="ChocoMSIWrapSetup" Level="1">
+      <ComponentRef Id="ChocoMSIWrap" />
+    </Feature>
+
+    <SetProperty Id="ChocolateyExecutableLocation" Value="[%ChocolateyInstall]\choco.exe" Before="InstallInitialize" Sequence="execute" />
+    <CustomAction Id='InstallAction' ExeCommand='install -y [CHOCOLATEYPACKAGE]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
+    <CustomAction Id='UninstallAction' ExeCommand='uninstall -y [CHOCOLATEYPACKAGE]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
+    <CustomAction Id='UpdateAction' ExeCommand='upgrade -y [CHOCOLATEYPACKAGE]' Property="ChocolateyExecutableLocation" Execute='immediate' Return='check'/>
 <!--     <CustomAction Id='ChangeAction' Directory='ProgramFilesFolder' ExeCommand='ChangeAction' Execute='immediate' Return='check'/>
     <CustomAction Id='RepairAction' Directory='ProgramFilesFolder' ExeCommand='RepairAction' Execute='immediate' Return='check'/> -->
 
